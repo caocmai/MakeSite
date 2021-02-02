@@ -1,42 +1,34 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
 	"io/ioutil"
 	"os"
+	"text/template"
 )
 
-type Text struct {
+type Story struct {
 	Content string
 }
 
 func main() {
-	FileContents, err := ioutil.ReadFile("first-post.txt")
+	fileContents, err := ioutil.ReadFile("first-post.txt")
 	if err != nil {
 		panic(err)
 	}
+	// fmt.Print(string(FileContents))
 
-	fmt.Print(string(FileContents))
+	t := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
 
-	t := template.Must(template.New("template.tmpl").ParseFiles("new.html"))
+	// t, err := template.New("todos").Parse("You have a task named \"{{ .Content}}\"")
 
-	fmt.Print(t)
-	text := Text{Content: string(FileContents)}
-	err = t.Execute(os.Stdout, text)
-	// err = t.ExecuteTemplate(wr, "fileName", FileContents)
+	text := Story{Content: string(fileContents)}
 
-	// t := template.Must(template.New("template.tmpl").Parse("new.html"))
-	// err = t.Execute(os.Stdout, FileContents)
+	f, err := os.Create("first-post.html")
+
+	err = t.Execute(f, text)
 
 	if err != nil {
 		panic(err)
 	}
-
-	// bytesToWrite := []byte("new.html")
-	// err = ioutil.WriteFile("new.html", bytesToWrite, 0644)
-	// if err != nil {
-	// 	panic(err)
-	// }
 
 }
