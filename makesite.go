@@ -20,11 +20,6 @@ func createHTMLFile(name string) {
 	}
 	// fmt.Print(string(fileContent))
 
-	// Adding flag?
-	filePtr := flag.String(name, "noName", "Sets flag to the file")
-	flag.Parse()
-	fmt.Print(*filePtr)
-
 	t := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
 
 	text := Post{Content: string(fileContent)}
@@ -49,7 +44,11 @@ func dir() {
 }
 
 func main() {
-	createHTMLFile("latest-post")
-	// dir()
+	var fileName string
+	flag.StringVar(&fileName, "file", "defaultValue", "Sets flag to the file")
+	flag.Parse()
+	// fmt.Print(fileName)
+
+	createHTMLFile(fileName)
 
 }
