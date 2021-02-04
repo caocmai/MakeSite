@@ -38,12 +38,10 @@ func createHTMLsFromDir() {
 	}
 
 	for _, file := range files {
-		// fmt.Println(file.Name())
 		if strings.Contains(file.Name(), "txt") {
-			// fmt.Print("Found", file.Name(), "\n")
-			var s string = file.Name()
-			s = strings.TrimSuffix(s, ".txt")
-			createHTMLFile(s)
+			var fileName string = file.Name()
+			fileName = strings.TrimSuffix(fileName, ".txt")
+			createHTMLFile(fileName)
 		}
 	}
 }
