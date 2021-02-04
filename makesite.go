@@ -1,11 +1,10 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -31,7 +30,7 @@ func createHTMLFile(name string) {
 	}
 }
 
-func dir() {
+func createHTMLsFromDir() {
 	directory := "."
 	files, err := ioutil.ReadDir(directory)
 	if err != nil {
@@ -39,16 +38,23 @@ func dir() {
 	}
 
 	for _, file := range files {
-		fmt.Println(file.Name())
+		// fmt.Println(file.Name())
+		if strings.Contains(file.Name(), "txt") {
+			// fmt.Print("Found", file.Name(), "\n")
+			var s string = file.Name()
+			s = strings.TrimSuffix(s, ".txt")
+			createHTMLFile(s)
+		}
 	}
 }
 
 func main() {
-	var fileName string
-	flag.StringVar(&fileName, "file", "defaultValue", "Sets flag to the file")
-	flag.Parse()
-	// fmt.Print(fileName)
+	// var fileName string
+	// flag.StringVar(&fileName, "file", "defaultValue", "Sets flag to the file")
+	// flag.Parse()
+	// // fmt.Print(fileName)
 
-	createHTMLFile(fileName)
+	// createHTMLFile(fileName)
+	createHTMLsFromDir()
 
 }
